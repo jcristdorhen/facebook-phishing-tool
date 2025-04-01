@@ -6,9 +6,12 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Login with Facebook - Firebase Style",
+  title: "CompAsia",
   description: "A dynamic login page with Firebase-inspired design",
-  generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/compasia.ico',
+  }
 }
 
 export default function RootLayout({

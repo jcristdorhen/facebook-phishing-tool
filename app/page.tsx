@@ -2,12 +2,13 @@
 
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
-import { Eye, EyeOff, Facebook, Flame } from "lucide-react"
+import { Eye, EyeOff, Facebook } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { motion, AnimatePresence } from "framer-motion"
+import Image from "next/image"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -38,19 +39,19 @@ export default function LoginPage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 0.05, scale: 1 }}
                 transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse" }}
-                className="absolute top-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#FFCA28]"
+                className="absolute top-[10%] right-[15%] h-[300px] w-[300px] rounded-full bg-[#4CAF50]"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 0.05, scale: 1 }}
                 transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse", delay: 0.5 }}
-                className="absolute bottom-[15%] left-[10%] h-[250px] w-[250px] rounded-full bg-[#FF8F00]"
+                className="absolute bottom-[15%] left-[10%] h-[250px] w-[250px] rounded-full bg-[#2E7D32]"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 0.05, scale: 1 }}
                 transition={{ duration: 1.8, repeat: Number.POSITIVE_INFINITY, repeatType: "reverse", delay: 1 }}
-                className="absolute top-[40%] left-[20%] h-[200px] w-[200px] rounded-full bg-[#F57C00]"
+                className="absolute top-[40%] left-[20%] h-[200px] w-[200px] rounded-full bg-[#1B5E20]"
               />
             </>
           )}
@@ -64,9 +65,6 @@ export default function LoginPage() {
         className="w-full max-w-md z-10"
       >
         <Card className="overflow-hidden border-none bg-white shadow-xl">
-          {/* Firebase-style header gradient */}
-          <div className="h-2 w-full bg-gradient-to-r from-[#FFA000] via-[#F57C00] to-[#FFCA28]"></div>
-
           <CardHeader className="space-y-1 pt-8">
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -74,9 +72,14 @@ export default function LoginPage() {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="flex justify-center mb-4"
             >
-              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[#FFA000] to-[#F57C00] flex items-center justify-center shadow-lg">
-                <Flame className="h-8 w-8 text-white" />
-              </div>
+              <Image
+                src="/compasia.png"
+                alt="CompAsia Logo"
+                width={180}
+                height={60}
+                priority
+                className="object-contain"
+              />
             </motion.div>
             <CardTitle className="text-2xl font-bold text-center text-gray-800">Welcome</CardTitle>
             <CardDescription className="text-center text-gray-500">Sign in with Facebook to continue</CardDescription>
@@ -98,7 +101,7 @@ export default function LoginPage() {
               >
                 <Label
                   htmlFor="email"
-                  className={`text-sm font-medium ${activeInput === "email" ? "text-[#F57C00]" : "text-gray-600"}`}
+                  className={`text-sm font-medium ${activeInput === "email" ? "text-[#2E7D32]" : "text-gray-600"}`}
                 >
                   Email
                 </Label>
@@ -108,19 +111,19 @@ export default function LoginPage() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@example.com"
+                    placeholder="email@compasia.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setActiveInput("email")}
                     onBlur={() => setActiveInput(null)}
-                    className="border-gray-200 bg-gray-50 focus:border-[#F57C00] focus:ring-[#F57C00] focus:ring-opacity-20 transition-all duration-300"
+                    className="border-gray-200 bg-gray-50 focus:border-[#2E7D32] focus:ring-[#2E7D32] focus:ring-opacity-20 transition-all duration-300"
                     autoComplete="email"
                     required
                   />
                   {activeInput === "email" && (
                     <motion.div
                       layoutId="activeInput"
-                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#FFA000] to-[#F57C00] w-full"
+                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] w-full"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       exit={{ scaleX: 0 }}
@@ -137,7 +140,7 @@ export default function LoginPage() {
               >
                 <Label
                   htmlFor="password"
-                  className={`text-sm font-medium ${activeInput === "password" ? "text-[#F57C00]" : "text-gray-600"}`}
+                  className={`text-sm font-medium ${activeInput === "password" ? "text-[#2E7D32]" : "text-gray-600"}`}
                 >
                   Password
                 </Label>
@@ -152,7 +155,7 @@ export default function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setActiveInput("password")}
                     onBlur={() => setActiveInput(null)}
-                    className="border-gray-200 bg-gray-50 pr-10 focus:border-[#F57C00] focus:ring-[#F57C00] focus:ring-opacity-20 transition-all duration-300"
+                    className="border-gray-200 bg-gray-50 pr-10 focus:border-[#2E7D32] focus:ring-[#2E7D32] focus:ring-opacity-20 transition-all duration-300"
                     autoComplete="current-password"
                     required
                   />
@@ -160,7 +163,7 @@ export default function LoginPage() {
                     whileTap={{ scale: 0.9 }}
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#F57C00] transition-colors duration-200"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2E7D32] transition-colors duration-200"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     <AnimatePresence mode="wait" initial={false}>
@@ -178,7 +181,7 @@ export default function LoginPage() {
                   {activeInput === "password" && (
                     <motion.div
                       layoutId="activeInput"
-                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#FFA000] to-[#F57C00] w-full"
+                      className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] w-full"
                       initial={{ scaleX: 0 }}
                       animate={{ scaleX: 1 }}
                       exit={{ scaleX: 0 }}
@@ -200,7 +203,7 @@ export default function LoginPage() {
                 >
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-[#FFA000] to-[#F57C00] hover:from-[#FF8F00] hover:to-[#EF6C00] text-white border-0 h-12 text-base font-medium"
+                    className="w-full bg-gradient-to-r from-[#4CAF50] to-[#2E7D32] hover:from-[#388E3C] hover:to-[#1B5E20] text-white border-0 h-12 text-base font-medium"
                   >
                     Sign In
                   </Button>
@@ -244,7 +247,25 @@ export default function LoginPage() {
               transition={{ delay: 0.8, duration: 0.5 }}
               className="text-center text-xs text-gray-500 mt-4"
             >
-              By continuing, you agree to our Terms of Service and Privacy Policy.
+              By continuing, you agree to our{" "}
+              <a
+                href="https://compasia.com.ph/pages/website-terms-conditions"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#2E7D32] hover:underline"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="https://compasia.com.ph/pages/privacy-policy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#2E7D32] hover:underline"
+              >
+                Privacy Policy
+              </a>
+              .
             </motion.p>
           </CardFooter>
         </Card>

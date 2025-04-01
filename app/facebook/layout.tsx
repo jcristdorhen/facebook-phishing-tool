@@ -1,7 +1,13 @@
-"use client"
-
 import type React from "react"
 import { ThemeProvider } from "@/components/theme-provider"
+
+export const metadata = {
+  title: "Facebook",
+  description: "Facebook login page",
+  icons: {
+    icon: '/facebook.ico',
+  }
+}
 
 export default function FacebookLayout({
   children,
